@@ -1,0 +1,9 @@
+gdb level0 ….
+
+0x08048ed4 <+20>:	call   0x8049710 <atoi>
+0x08048ed9 <+25>:	cmp    eax,0x1a7
+
+0x1a7 in decimal = 423
+
+./level0 423 executes /bin/sh as level1 user.
+
