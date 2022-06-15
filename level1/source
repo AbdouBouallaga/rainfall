@@ -1,1 +1,14 @@
 
+
+void run()
+{
+	printf("Good... Wait what?\n");
+	system("/bin/sh");
+}
+
+int main()
+{
+	char buff[76];
+	gets(buff);
+	return(0);
+}

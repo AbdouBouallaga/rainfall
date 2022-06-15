@@ -3,12 +3,15 @@
 void p()
 {
 	fflush(stdout);
-	void var;
-	gets(&var);
+	void buff;
+	gets(&buff);
 	if ((__return_addr & 0xb0000000) != 0xb0000000)
 	{
-		
+		puts(&buff);
+		return(strdup(&buff));
 	}
+	printf("(%p)\n", __return_addr);
+	_exit(1);
 }
 
 int main()

