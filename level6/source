@@ -1,0 +1,20 @@
+
+
+
+
+void n()
+{
+	system("/bin/cat /home/user/level7/.pass");
+}
+
+int m()
+{
+	return(puts("Nope"));
+}
+
+int main(int ac, char *av)
+{
+	int32_t buff = malloc(0x40);
+	strcpy(buff, av[1]);
+	return(m());
+}

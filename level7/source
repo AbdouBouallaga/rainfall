@@ -1,0 +1,22 @@
+
+
+int m()
+{
+	return(printf("%s", c));
+}
+
+int main(int ac, char *av)
+{
+	void c;
+	int32_t *buff_one = malloc(8);
+	*buff_one = 1;
+	buff_one[1] = malloc(8);
+	int32_t *buff_two = malloc(8);
+	*buff_two = 1;
+	buff_two[1] = malloc(8);
+	strcpy(buff_one, av[1]);
+	strcpy(buff_two, av[2]);
+	fgets(c, 0x44, fopen("/home/user/level8/.pass", "r"));
+	puts("~~");
+	return 0;
+}
