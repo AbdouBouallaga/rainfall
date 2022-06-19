@@ -1,0 +1,8 @@
+
+int main(int ac, char **av)
+{
+	void buff1 = malloc(0x6c);
+	void buff2 = malloc(0x6c);
+	memcpy(buff1+4, av[1], strlen(av[1]));
+	return(**buff2);
+}

