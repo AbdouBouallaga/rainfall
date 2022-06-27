@@ -1,0 +1,14 @@
+
+
+int main(int ac, char **av)
+{
+	int32_t buff = atoi(av[1]);
+	if (buff > 9)
+		return 1;
+	else
+		void buff_1;
+		memcpy(&buff_1, av[2], buff << 2);
+		if (buff == "WOLF")
+			execl(0x8048583, 0x8048580, 0); //{"/bin/sh"}
+	return 0;
+}
