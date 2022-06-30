@@ -1,0 +1,17 @@
+
+
+int main(int ac, char **av)
+{
+	int32_t fd = fopen("/home/user/end/.pass", "r");
+	if (fd && ac == 2)
+	{
+		void buff;
+		fread(&buff, 1, 0x42, fd);
+		*(&buff + atoi(av[1])) = 0;
+		if (strcmp(&buff, av[1]) != 0)
+			puts("poo");
+		else
+			execl("/bin/sh");
+	}
+	return 0;
+}
